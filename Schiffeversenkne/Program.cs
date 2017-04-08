@@ -16,7 +16,8 @@ namespace Schiffeversenkne
         static Account Spieler1 = new Account();
         static Account Spieler2 = new Account();
         static Random rnd = new Random();
-
+        static SchiffeSetzen setzen = new SchiffeSetzen(Spieler1, Spieler2);
+        static SchiffeVersenken versenken = new SchiffeVersenken(Spieler1, Spieler2);
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -24,7 +25,6 @@ namespace Schiffeversenkne
             Console.WriteLine("Mensch gegen Maschine:   2");
             Console.WriteLine("Maschine gegen Maschine: 3");
             Console.ResetColor();
-
             do
             {
                 Console.Write("\nEingabe: ");
@@ -32,17 +32,14 @@ namespace Schiffeversenkne
 
             }
             while (eingabe < 1 || eingabe > 3);
-
             Console.Write("\nErster Name: ");
             name1 = Console.ReadLine();
-
             do
             {
                 Console.Write("\nZweiter Name: ");
                 name2 = Console.ReadLine();
             }
             while (name1 == name2);
-
             switch (eingabe)
             {
                 case 1: // Case 1 //////////////////////////////////////////////////////////////////
@@ -59,23 +56,25 @@ namespace Schiffeversenkne
                         Console.WriteLine("\n" + name2 + " darf beginnen.");
                     }
                     //Schiffe setzen Spieler 1
-                    SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, PlatzierungEinlesen(Spieler1.name));
+                    setzen.SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, setzen.PlatzierungEinlesen(Spieler1.name));
                     //Schiffe setzen Spieler 2
-                    SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, PlatzierungEinlesen(Spieler2.name));
+                    setzen.SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, setzen.PlatzierungEinlesen(Spieler2.name));
                     //Schiffe versenken
                     Console.Clear();
-                    TipMensch(Spieler1.name, Spieler2.spielfeld);
+                    Console.WriteLine("Schiffe versenken...");
+                    Console.WriteLine();
+                    aktuellerSpieler = versenken.TipMensch(Spieler1.name, Spieler2.spielfeld);
                     while (Spieler1.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
                     {
                         switch (aktuellerSpieler)
                         {
                             case 1:
                                 Console.WriteLine("Punkte: "+ Spieler1.gesamtPunkte);
-                                TipMensch(Spieler1.name, Spieler2.spielfeld);
+                                aktuellerSpieler = versenken.TipMensch(Spieler1.name, Spieler2.spielfeld);
                                 break;
                             case 2:
                                 Console.WriteLine("Punkte: " + Spieler2.gesamtPunkte);
-                                TipMensch(Spieler2.name, Spieler1.spielfeld);
+                                aktuellerSpieler = versenken.TipMensch(Spieler2.name, Spieler1.spielfeld);
                                 break;
                             default:
                                 break;
@@ -86,24 +85,27 @@ namespace Schiffeversenkne
                     Spieler1.name = name1;
                     Spieler2.name = name2;
                     //Schiffe setzen Spieler 1
-                    SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, PlatzierungEinlesen(Spieler1.name));
+                    setzen.SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, setzen.PlatzierungEinlesen(Spieler1.name));
                     //Schiffe generieren Maschine 2
-                    SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, PlatzierungGenerieren(Spieler2.name, Spieler2.genram));
+                    setzen.SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, setzen.PlatzierungGenerieren(Spieler2.name, Spieler2.genram));
+                    System.Threading.Thread.Sleep(500);
                     //Versenken
                     Console.Clear();
-                    TipMensch(Spieler1.name, Spieler2.spielfeld);
+                    Console.WriteLine("Schiffe versenken...");
+                    Console.WriteLine();
+                    aktuellerSpieler = versenken.TipMensch(Spieler1.name, Spieler2.spielfeld);
                     while (Spieler1.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
                     {
                         switch (aktuellerSpieler)
                         {
                             case 1:
-                                Console.WriteLine("\nPunkte: " + Spieler1.gesamtPunkte);
-                                TipMensch(Spieler1.name, Spieler2.spielfeld);
+                                Console.WriteLine("Punkte: " + Spieler1.gesamtPunkte);
+                                aktuellerSpieler = versenken.TipMensch(Spieler1.name, Spieler2.spielfeld);
                                 break;
                             case 2:
                                 System.Threading.Thread.Sleep(500);
-                                Console.WriteLine("\nPunkte: " + Spieler2.gesamtPunkte);
-                                TipMaschine(Spieler2.name, Spieler1.spielfeld, Spieler2.ram, Spieler2.runde);
+                                Console.WriteLine("Punkte: " + Spieler2.gesamtPunkte);
+                                aktuellerSpieler = versenken.TipMaschine(Spieler2.name, Spieler1.spielfeld, Spieler2.ram, Spieler2.runde);
                                 break;
                             default:
                                 break;
@@ -114,14 +116,16 @@ namespace Schiffeversenkne
                     Spieler1.name = name1;
                     Spieler2.name = name2;
                     //Schiffe setzen Maschine 1
-                    SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, PlatzierungGenerieren(Spieler1.name, Spieler1.genram));
+                    setzen.SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, setzen.PlatzierungGenerieren(Spieler1.name, Spieler1.genram));
                     System.Threading.Thread.Sleep(500);
                     //Schiffe setzen Maschine 2
-                    SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, PlatzierungGenerieren(Spieler2.name, Spieler2.genram));
+                    setzen.SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, setzen.PlatzierungGenerieren(Spieler2.name, Spieler2.genram));
                     System.Threading.Thread.Sleep(500);
                     //Versenken
                     Console.Clear();
-                    TipMaschine(Spieler1.name, Spieler2.spielfeld, Spieler1.ram, Spieler1.runde);
+                    Console.WriteLine("Schiffe versenken...");
+                    Console.WriteLine();
+                    aktuellerSpieler = versenken.TipMaschine(Spieler1.name, Spieler2.spielfeld, Spieler1.ram, Spieler1.runde);
                     while (Spieler1.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
                     {
                         switch (aktuellerSpieler)
@@ -129,12 +133,12 @@ namespace Schiffeversenkne
                             case 1:
                                 //foreach (int i in Spieler1.ram) Console.Write("{0} ", i);
                                 System.Threading.Thread.Sleep(750);
-                                TipMaschine(Spieler1.name, Spieler2.spielfeld, Spieler1.ram, Spieler1.runde);
+                                aktuellerSpieler = versenken.TipMaschine(Spieler1.name, Spieler2.spielfeld, Spieler1.ram, Spieler1.runde);
                                 break;
                             case 2:
                                 //foreach (int i in Spieler2.ram) Console.Write("{0} ", i);
                                 System.Threading.Thread.Sleep(750);
-                                TipMaschine(Spieler2.name, Spieler1.spielfeld, Spieler2.ram, Spieler2.runde);
+                                aktuellerSpieler = versenken.TipMaschine(Spieler2.name, Spieler1.spielfeld, Spieler2.ram, Spieler2.runde);
                                 break;
                             default:
                                 break;
@@ -144,7 +148,6 @@ namespace Schiffeversenkne
                 default:
                     break;
             }
-            
             //Auswertung
             if(Spieler1.gesamtPunkte == 3)
             {
@@ -166,137 +169,5 @@ namespace Schiffeversenkne
 /// End of Main //////////////////////////////////////
 /// End of Main //////////////////////////////////////
 /// End of Main //////////////////////////////////////
-
-        //Schiffe vor dem Platzieren einlesen
-        static int[] PlatzierungEinlesen(string spieler)
-        {
-            Console.Clear();
-            Console.WriteLine("Platziere Schiffe " + spieler);
-            Console.WriteLine();
-            int[] einlesen = { 0, 0, 0, 0 };
-            for(int i = 1; i <= 3; i++)
-            {
-                Console.Write("Platziere Schiff " + i +": ");
-                int temp = Convert.ToInt32(Console.ReadLine());
-                if(temp < 1 || temp > 9)
-                {
-                    Console.WriteLine("Wert muss  zwischen 1 und 9 liegen!");
-                    i--;
-                }
-                else if(einlesen.Contains(temp))
-                {
-                    Console.WriteLine("Feld bereits belegt.");
-                    i--;
-                }
-                else
-                {
-                    einlesen[i] = temp;
-                }
-            }
-            return einlesen;
-        }///Ende
-        //Schiffe vor dem Platzieren generieren
-        static int[] PlatzierungGenerieren(string spieler, int[] genram)
-        {
-            Console.Clear();
-            Console.WriteLine("Platziere Schiffe " + spieler + "...");
-            Console.WriteLine();
-            int[] generieren = { 0, 0, 0, 0 };
-            int s = 9;
-            for (int i = 1; i <= 3; i++)
-            {
-                int t = rnd.Next(0, s);
-                int temp = genram[t];
-                genram = genram.Where(w => w != genram[t]).ToArray();
-                s--;
-                System.Threading.Thread.Sleep(500);
-                Console.WriteLine("Platziere Schiff " + i);
-                generieren[i] = temp;
-            }
-            return generieren;
-        }///Ende
-        //Schiffe werden Platziert
-        static void SchiffePlatzieren(string spieler,bool[] spielfeld, int[] temp)
-        {
-            for(int i = 1; i <= 3; i++)
-            {
-                if(spieler == Spieler1.name)
-                {
-                    Spieler1.spielfeld[(temp[i]) - 1] = true;
-                }
-                else if(spieler == Spieler2.name)
-                {
-                    Spieler2.spielfeld[(temp[i]) - 1] = true;
-                }
-            }
-        }///Ende
-        //Menschlichen Tip einlesen
-        static void TipMensch(string spieler, bool[] spielfeld)
-        {
-            Console.Write("\nAngriff " + spieler + ": ");
-            int tip = Convert.ToInt32(Console.ReadLine());
-            aktuellerSpieler = Versenken(spieler, spielfeld, tip);
-        }///Ende
-        //Maschinellen Tip generieren
-        static void TipMaschine(string spieler, bool[] spielfeld, int[] ram, int runde)
-        {
-            int t = rnd.Next(0, runde);
-            int tip = ram[t];
-            if (spieler == Spieler1.name)
-            {
-                Spieler1.runde--;
-                Spieler1.ram = Spieler1.ram.Where(w => w != ram[t]).ToArray();
-            }
-            else if (spieler == Spieler2.name)
-            {
-                Spieler2.runde--;
-                Spieler2.ram = Spieler2.ram.Where(w => w != ram[t]).ToArray();
-            }
-            Console.WriteLine("\nAngriff " + spieler + ": " + tip);
-            aktuellerSpieler = Versenken(spieler, spielfeld, tip);
-        }
-        ///Ende
-        //Versenken
-        static int Versenken(string spieler, bool[]spielfeld, int temp)
-        {
-            int punkt = 0;
-            //Spieler 1 kein Treffer
-            if ((spielfeld[temp-1] == false) && (spieler == Spieler1.name))
-            {
-                punkt = 2;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Daneben");
-                Console.ResetColor();
-            }
-            //spieler 1 Treffer
-            else if ((spielfeld[temp-1] == true) && (spieler == Spieler1.name))
-            {
-                punkt = 1;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Treffer");
-                Console.ResetColor();
-                Spieler1.gesamtPunkte++;
-                spielfeld[temp - 1] = false;
-            }
-            //Spieler 2 kein Treffer
-            if ((spielfeld[temp - 1] == false) && (spieler == Spieler2.name))
-            {
-                punkt = 1;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Daneben");
-                Console.ResetColor();
-            }
-            //spieler 2 Treffer
-            else if ((spielfeld[temp - 1] == true) && (spieler == Spieler2.name))
-            {
-                punkt = 2;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Treffer");
-                Console.ResetColor();
-                Spieler2.gesamtPunkte++;
-                spielfeld[temp - 1] = false;
-            }
-            return punkt;
-        }///Ende
     }
 }

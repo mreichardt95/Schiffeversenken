@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Schiffeversenkne
 {
-    class Account
+    public class Account
     {
         public string name;
         public bool[] spielfeld = { false, false, false, false, false, false, false, false, false };
