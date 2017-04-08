@@ -20,26 +20,40 @@ namespace Schiffeversenkne
         static SchiffeVersenken versenken = new SchiffeVersenken(Spieler1, Spieler2);
         static void Main(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Mensch gegen Mensch:     1");
-            Console.WriteLine("Mensch gegen Maschine:   2");
-            Console.WriteLine("Maschine gegen Maschine: 3");
-            Console.ResetColor();
-            do
-            {
-                Console.Write("\nEingabe: ");
-                eingabe = Convert.ToInt32(Console.ReadLine());
+            Init();
+            Game();
+            Result();
+        }
+/// End of Main //////////////////////////////////////
+/// End of Main //////////////////////////////////////
+/// End of Main //////////////////////////////////////
+        static void Init ()
+        {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("Mensch gegen Mensch:     1");
+        Console.WriteLine("Mensch gegen Maschine:   2");
+        Console.WriteLine("Maschine gegen Maschine: 3");
+        Console.ResetColor();
+        do
+        {
+            Console.Write("\nEingabe: ");
+            eingabe = Convert.ToInt32(Console.ReadLine());
 
-            }
-            while (eingabe < 1 || eingabe > 3);
-            Console.Write("\nErster Name: ");
-            name1 = Console.ReadLine();
-            do
-            {
-                Console.Write("\nZweiter Name: ");
-                name2 = Console.ReadLine();
-            }
-            while (name1 == name2);
+        }
+        while (eingabe < 1 || eingabe > 3);
+        Console.Write("\nErster Name: ");
+        name1 = Console.ReadLine();
+        do
+        {
+            Console.Write("\nZweiter Name: ");
+            name2 = Console.ReadLine();
+        }
+        while (name1 == name2);
+        }
+
+        static void Game ()
+        {
+
             switch (eingabe)
             {
                 case 1: // Case 1 //////////////////////////////////////////////////////////////////
@@ -69,7 +83,7 @@ namespace Schiffeversenkne
                         switch (aktuellerSpieler)
                         {
                             case 1:
-                                Console.WriteLine("Punkte: "+ Spieler1.gesamtPunkte);
+                                Console.WriteLine("Punkte: " + Spieler1.gesamtPunkte);
                                 aktuellerSpieler = versenken.TipMensch(Spieler1.name, Spieler2.spielfeld);
                                 break;
                             case 2:
@@ -148,14 +162,17 @@ namespace Schiffeversenkne
                 default:
                     break;
             }
+        }
+        static void Result ()
+        {
             //Auswertung
-            if(Spieler1.gesamtPunkte == 3)
+            if (Spieler1.gesamtPunkte == 3)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("\nSieger: " + Spieler1.name);
                 Console.ResetColor();
             }
-            else if(Spieler2.gesamtPunkte == 3)
+            else if (Spieler2.gesamtPunkte == 3)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("\nSieger: " + Spieler2.name);
@@ -166,8 +183,6 @@ namespace Schiffeversenkne
             Console.Write("\nPress any key to continue... ");
             Console.ReadLine();
         }
-/// End of Main //////////////////////////////////////
-/// End of Main //////////////////////////////////////
-/// End of Main //////////////////////////////////////
+    
     }
 }
