@@ -43,23 +43,22 @@ namespace Schiffeversenkne
             }
             while (name1 == name2);
 
-            Random rnd = new Random();
-            if ((rnd.Next(0, 2)) == 0)
-            {
-                Spieler1.name = name1;
-                Spieler2.name = name2;
-                Console.WriteLine("\n" + name1 + " darf beginnen.");
-            }
-            else
-            {
-                Spieler2.name = name2;
-                Spieler2.name = name1;
-                Console.WriteLine("\n" + name2 + " darf beginnen.");
-            }
-
             switch (eingabe)
             {
-                case 1:
+                case 1: // Case 1 //////////////////////////////////////////////////////////////////
+                    Random rnd = new Random();
+                    if ((rnd.Next(0, 2)) == 0)
+                    {
+                        Spieler1.name = name1;
+                        Spieler2.name = name2;
+                        Console.WriteLine("\n" + name1 + " darf beginnen.");
+                    }
+                    else
+                    {
+                        Spieler2.name = name2;
+                        Spieler2.name = name1;
+                        Console.WriteLine("\n" + name2 + " darf beginnen.");
+                    }
                     //Schiffe setzen Spieler 1
                     SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, PlatzierungEinlesen(Spieler1.name));
                     //Schiffe setzen Spieler 2
@@ -84,13 +83,17 @@ namespace Schiffeversenkne
                         }
                     }
                     break; ///End of Case 1
-
-                case 2:
+                case 2: // Case 2 //////////////////////////////////////////////////////////////////
+                    Spieler1.name = name1;
+                    Spieler2.name = name2;
                     //Schiffe setzen Spieler 1
                     SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, PlatzierungEinlesen(Spieler1.name));
                     //Schiffe generieren Maschine 2
                     SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, PlatzierungGenerieren(Spieler2.name, Spieler2.genram));
-                    while (Spieler2.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
+                    Console.WriteLine(Spieler1.gesamtPunkte);
+                    Console.WriteLine(Spieler2.gesamtPunkte);
+                    
+                    while (Spieler1.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
                     {
                         switch (aktuellerSpieler)
                         {
@@ -108,7 +111,9 @@ namespace Schiffeversenkne
                     }
 
                     break;///End of Case 2
-                case 3:
+                case 3: // Case 3 //////////////////////////////////////////////////////////////////
+                    Spieler1.name = name1;
+                    Spieler2.name = name2;
                     Console.WriteLine("\nSwitch 3");
                     break;
                 default:
@@ -132,9 +137,9 @@ namespace Schiffeversenkne
             Console.Write("\nPress any key to continue... ");
             Console.ReadLine();
         }
-///End of Main
-///End of Main
-///End of Main
+/// End of Main //////////////////////////////////////
+/// End of Main //////////////////////////////////////
+/// End of Main //////////////////////////////////////
 
         //Schiffe vor dem Platzieren einlesen
         static int[] PlatzierungEinlesen(string spieler)
@@ -173,7 +178,7 @@ namespace Schiffeversenkne
             int[] generieren = { 0, 0, 0, 0 };
             for(int i = 1; i <= 3; i++)
             {
-                int s = 9;
+                int s = 8;
                 Random rnd = new Random();
                 int t = rnd.Next(0, s);
                 int temp = genram[t];
