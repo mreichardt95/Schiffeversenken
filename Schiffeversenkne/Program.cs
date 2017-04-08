@@ -17,7 +17,6 @@ namespace Schiffeversenkne
         static Account Spieler2 = new Account();
         static Random rnd = new Random();
 
-
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -90,21 +89,21 @@ namespace Schiffeversenkne
                     SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, PlatzierungEinlesen(Spieler1.name));
                     //Schiffe generieren Maschine 2
                     SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, PlatzierungGenerieren(Spieler2.name, Spieler2.genram));
-                    Console.WriteLine(Spieler1.gesamtPunkte);
-                    Console.WriteLine(Spieler2.gesamtPunkte);
+                    //Versenken
+                    Console.Clear();
                     TipMensch(Spieler1.name, Spieler2.spielfeld);
                     while (Spieler1.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
                     {
                         switch (aktuellerSpieler)
                         {
                             case 1:
-                                Console.WriteLine("Punkte: " + Spieler1.gesamtPunkte);
+                                Console.WriteLine("\nPunkte: " + Spieler1.gesamtPunkte);
                                 TipMensch(Spieler1.name, Spieler2.spielfeld);
                                 break;
                             case 2:
-                                Console.WriteLine("Punkte: " + Spieler2.gesamtPunkte);
                                 System.Threading.Thread.Sleep(500);
-                                TipMaschine(Spieler2.name, Spieler1.spielfeld, Spieler2.ram);
+                                Console.WriteLine("\nPunkte: " + Spieler2.gesamtPunkte);
+                                TipMaschine(Spieler2.name, Spieler1.spielfeld, Spieler2.ram, Spieler2.runde);
                                 break;
                             default:
                                 break;
@@ -114,7 +113,33 @@ namespace Schiffeversenkne
                 case 3: // Case 3 //////////////////////////////////////////////////////////////////
                     Spieler1.name = name1;
                     Spieler2.name = name2;
-                    Console.WriteLine("\nSwitch 3");
+                    //Schiffe setzen Maschine 1
+                    SchiffePlatzieren(Spieler1.name, Spieler1.spielfeld, PlatzierungGenerieren(Spieler1.name, Spieler1.genram));
+                    System.Threading.Thread.Sleep(500);
+                    //Schiffe setzen Maschine 2
+                    SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, PlatzierungGenerieren(Spieler2.name, Spieler2.genram));
+                    System.Threading.Thread.Sleep(500);
+                    //Versenken
+                    Console.Clear();
+                    TipMaschine(Spieler1.name, Spieler2.spielfeld, Spieler1.ram, Spieler1.runde);
+                    while (Spieler1.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
+                    {
+                        switch (aktuellerSpieler)
+                        {
+                            case 1:
+                                //foreach (int i in Spieler1.ram) Console.Write("{0} ", i);
+                                System.Threading.Thread.Sleep(750);
+                                TipMaschine(Spieler1.name, Spieler2.spielfeld, Spieler1.ram, Spieler1.runde);
+                                break;
+                            case 2:
+                                //foreach (int i in Spieler2.ram) Console.Write("{0} ", i);
+                                System.Threading.Thread.Sleep(750);
+                                TipMaschine(Spieler2.name, Spieler1.spielfeld, Spieler2.ram, Spieler2.runde);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     break;
                 default:
                     break;
@@ -213,13 +238,20 @@ namespace Schiffeversenkne
             aktuellerSpieler = Versenken(spieler, spielfeld, tip);
         }///Ende
         //Maschinellen Tip generieren
-        static void TipMaschine(string spieler, bool[] spielfeld, int[] ram)
+        static void TipMaschine(string spieler, bool[] spielfeld, int[] ram, int runde)
         {
-            int s = 9;
-            int t = rnd.Next(0, s);
+            int t = rnd.Next(0, runde);
             int tip = ram[t];
-            ram = ram.Where(w => w != ram[t]).ToArray();
-            s--;
+            if (spieler == Spieler1.name)
+            {
+                Spieler1.runde--;
+                Spieler1.ram = Spieler1.ram.Where(w => w != ram[t]).ToArray();
+            }
+            else if (spieler == Spieler2.name)
+            {
+                Spieler2.runde--;
+                Spieler2.ram = Spieler2.ram.Where(w => w != ram[t]).ToArray();
+            }
             Console.WriteLine("\nAngriff " + spieler + ": " + tip);
             aktuellerSpieler = Versenken(spieler, spielfeld, tip);
         }

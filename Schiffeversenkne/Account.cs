@@ -13,6 +13,7 @@ namespace Schiffeversenkne
         public int[] ram = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         public int[] genram = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         public int gesamtPunkte = 0;
+        public int runde = 9;
 
     }
 }
