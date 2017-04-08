@@ -15,6 +15,7 @@ namespace Schiffeversenkne
         static int aktuellerSpieler;
         static Account Spieler1 = new Account();
         static Account Spieler2 = new Account();
+        static Random rnd = new Random();
 
 
         static void Main(string[] args)
@@ -46,7 +47,6 @@ namespace Schiffeversenkne
             switch (eingabe)
             {
                 case 1: // Case 1 //////////////////////////////////////////////////////////////////
-                    Random rnd = new Random();
                     if ((rnd.Next(0, 2)) == 0)
                     {
                         Spieler1.name = name1;
@@ -176,10 +176,9 @@ namespace Schiffeversenkne
             Console.WriteLine("Platziere Schiffe " + spieler + "...");
             Console.WriteLine();
             int[] generieren = { 0, 0, 0, 0 };
-            for(int i = 1; i <= 3; i++)
+            int s = 9;
+            for (int i = 1; i <= 3; i++)
             {
-                int s = 8;
-                Random rnd = new Random();
                 int t = rnd.Next(0, s);
                 int temp = genram[t];
                 genram = genram.Where(w => w != genram[t]).ToArray();
@@ -217,7 +216,6 @@ namespace Schiffeversenkne
         {
             Console.Write("\nAngriff " + spieler + ": ");
             int s = 9;
-            Random rnd = new Random();
             int t = rnd.Next(0, s);
             int tip = ram[t];
             ram = ram.Where(w => w != ram[t]).ToArray();
