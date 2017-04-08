@@ -66,7 +66,7 @@ namespace Schiffeversenkne
                     //Schiffe versenken
                     Console.Clear();
                     TipMensch(Spieler1.name, Spieler2.spielfeld);
-                    while (Spieler2.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
+                    while (Spieler1.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
                     {
                         switch (aktuellerSpieler)
                         {
@@ -92,7 +92,7 @@ namespace Schiffeversenkne
                     SchiffePlatzieren(Spieler2.name, Spieler2.spielfeld, PlatzierungGenerieren(Spieler2.name, Spieler2.genram));
                     Console.WriteLine(Spieler1.gesamtPunkte);
                     Console.WriteLine(Spieler2.gesamtPunkte);
-                    
+                    TipMensch(Spieler1.name, Spieler2.spielfeld);
                     while (Spieler1.gesamtPunkte < 3 && Spieler2.gesamtPunkte < 3)
                     {
                         switch (aktuellerSpieler)
@@ -103,13 +103,13 @@ namespace Schiffeversenkne
                                 break;
                             case 2:
                                 Console.WriteLine("Punkte: " + Spieler2.gesamtPunkte);
-                                TipMaschine(Spieler1.name, Spieler1.spielfeld, Spieler1.ram);
+                                System.Threading.Thread.Sleep(500);
+                                TipMaschine(Spieler2.name, Spieler1.spielfeld, Spieler2.ram);
                                 break;
                             default:
                                 break;
                         }
                     }
-
                     break;///End of Case 2
                 case 3: // Case 3 //////////////////////////////////////////////////////////////////
                     Spieler1.name = name1;
@@ -134,6 +134,7 @@ namespace Schiffeversenkne
                 Console.ResetColor();
             }
 
+            Console.WriteLine();
             Console.Write("\nPress any key to continue... ");
             Console.ReadLine();
         }
@@ -183,7 +184,7 @@ namespace Schiffeversenkne
                 int temp = genram[t];
                 genram = genram.Where(w => w != genram[t]).ToArray();
                 s--;
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(500);
                 Console.WriteLine("Platziere Schiff " + i);
                 generieren[i] = temp;
             }
@@ -200,7 +201,7 @@ namespace Schiffeversenkne
                 }
                 else if(spieler == Spieler2.name)
                 {
-                     Spieler2.spielfeld[(temp[i]) - 1] = true;
+                    Spieler2.spielfeld[(temp[i]) - 1] = true;
                 }
             }
         }///Ende
@@ -214,12 +215,12 @@ namespace Schiffeversenkne
         //Maschinellen Tip generieren
         static void TipMaschine(string spieler, bool[] spielfeld, int[] ram)
         {
-            Console.Write("\nAngriff " + spieler + ": ");
             int s = 9;
             int t = rnd.Next(0, s);
             int tip = ram[t];
             ram = ram.Where(w => w != ram[t]).ToArray();
             s--;
+            Console.WriteLine("\nAngriff " + spieler + ": " + tip);
             aktuellerSpieler = Versenken(spieler, spielfeld, tip);
         }
         ///Ende
