@@ -25,8 +25,6 @@ namespace Schiffeversenkne
             Result();
         }
 /// End of Main //////////////////////////////////////
-/// End of Main //////////////////////////////////////
-/// End of Main //////////////////////////////////////
         static void Init ()
         {
         Console.ForegroundColor = ConsoleColor.Yellow;
