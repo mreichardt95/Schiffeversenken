@@ -9,7 +9,8 @@ namespace Schiffeversenkne
     public class Account
     {
         public string name;
-        public string[,] spielfeld = { };
+        public string[,] spielfeld = new string[3, 3] { {"o", "o", "o"}, {"o", "o", "o"}, { "o", "o", "o" } };
+        public string[,] beschuss = new string[3, 3] { { "o", "o", "o" }, { "o", "o", "o" }, { "o", "o", "o" } };
         public int gesamtPunkte = 0;
 
     }
